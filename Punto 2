@@ -1,3 +1,9 @@
+// Dependencia para leer entrada del usuario en Node.js
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 // Base de datos simulada
 // Función: Almacena las tareas en una lista en memoria.
 // Escalabilidad: La clase permite agregar tareas fácilmente; en una app real, se usaría una base de datos que soporte grandes volúmenes y concurrencia.
@@ -36,9 +42,11 @@ function backend(database, task) {
 // Mantenibilidad: Código simple y aislado, fácil de expandir (ej. agregar más campos al formulario).
 // Seguridad: La validación principal está en el backend, pero aquí se podría agregar una pre-validación.
 function frontend(backendFunc, database) {
-  const task = prompt('Ingrese el nombre de la tarea:'); // Simula el formulario
-  const response = backendFunc(database, task);
-  console.log(response);
+  readline.question('Ingrese el nombre de la tarea: ', (task) => {
+    const response = backendFunc(database, task);
+    console.log(response);
+    readline.close(); // Cierra la interfaz de entrada
+  });
 }
 
 // Ejecución de la aplicación
