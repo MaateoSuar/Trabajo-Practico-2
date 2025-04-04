@@ -1,0 +1,51 @@
+// Base de datos simulada
+// Función: Almacena las tareas en una lista en memoria.
+// Escalabilidad: La clase permite agregar tareas fácilmente; en una app real, se usaría una base de datos que soporte grandes volúmenes y concurrencia.
+// Mantenibilidad: Código simple y modular, fácil de extender con más métodos (ej. eliminar tareas).
+// Seguridad: En esta simulación no hay riesgos, pero en una base de datos real se agregarían medidas como encriptación.
+class Database {
+  constructor() {
+    this.tasks = [];
+  }
+
+  addTask(task) {
+    this.tasks.push(task);
+  }
+
+  getTasks() {
+    return this.tasks;
+  }
+}
+
+// Backend
+// Función: Recibe la tarea, la valida y la guarda en la base de datos simulada.
+// Escalabilidad: Podría hacerse asíncrono para manejar múltiples solicitudes en una app real.
+// Mantenibilidad: Lógica separada en una función clara, fácil de modificar (ej. agregar más validaciones).
+// Seguridad: Valida que la tarea no esté vacía, previniendo datos inválidos.
+function backend(database, task) {
+  if (!task || task.trim() === '') {
+    return 'Error: La tarea no puede estar vacía.';
+  }
+  database.addTask(task);
+  return `Tarea guardada: ${task}`;
+}
+
+// Frontend
+// Función: Simula la entrada del usuario y envía la tarea al backend.
+// Escalabilidad: En una app real, soportaría múltiples usuarios con una interfaz web y manejo de eventos.
+// Mantenibilidad: Código simple y aislado, fácil de expandir (ej. agregar más campos al formulario).
+// Seguridad: La validación principal está en el backend, pero aquí se podría agregar una pre-validación.
+function frontend(backendFunc, database) {
+  const task = prompt('Ingrese el nombre de la tarea:'); // Simula el formulario
+  const response = backendFunc(database, task);
+  console.log(response);
+}
+
+// Ejecución de la aplicación
+const db = new Database();
+frontend(backend, db);
+
+// Nota sobre escalabilidad y mantenibilidad:
+// - Frontend: Podría mejorarse con una interfaz gráfica (HTML/CSS) y validación en el cliente para mejor experiencia de usuario.
+// - Backend: Se podría agregar lógica adicional (ej. timestamps, manejo de errores) y usar un servidor real (ej. Express).
+// - Base de datos: En una app real, usar una base de datos persistente (ej. MongoDB) con índices y seguridad avanzada.
